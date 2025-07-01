@@ -50,11 +50,11 @@ const CarouselMobile = () => {
                 className="w-dvw h-dvh object-cover brightness-[.6]"
                 priority={index === 0}
               />
-              <div className="px-12 w-full absolute top-12 left-0 flex flex-col gap-5 z-10">
-                <h1 className="text-6xl text-white font-comforter">
+              <div className="px-12 w-full absolute top-24 left-0 flex flex-col gap-5 z-10">
+                <h1 className="text-5xl text-white font-comforter">
                   {slide.title}
                 </h1>
-                <h1 className="text-lg text-white font-raleway">
+                <h1 className="text-sm text-white font-raleway">
                   {slide.description}
                 </h1>
               </div>

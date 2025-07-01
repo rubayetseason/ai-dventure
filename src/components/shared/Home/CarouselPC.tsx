@@ -57,7 +57,7 @@ const CarouselPC = () => {
                 className="w-dvw h-dvh object-cover brightness-[.6]"
                 priority={index === 0}
               />
-              <div className="px-12 w-full absolute top-12 left-0 flex justify-between items-center z-10">
+              <div className="px-12 w-full absolute top-20 left-0 flex justify-between items-center z-10">
                 <h1 className="text-8xl text-white font-comforter">
                   {slide.title}
                 </h1>
