@@ -61,7 +61,7 @@ const CarouselPC = () => {
                 <h1 className="text-8xl text-white font-comforter">
                   {slide.title}
                 </h1>
-                <h1 className="w-96 text-xl text-white font-raleway">
+                <h1 className="w-96 text-base text-white font-raleway">
                   {slide.description}
                 </h1>
               </div>
