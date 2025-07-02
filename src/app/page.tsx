@@ -11,7 +11,7 @@ export default function Home() {
       <div className="md:hidden">
         <CarouselMobile></CarouselMobile>
       </div>
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+      <div className="w-full absolute top-[50%] left-1/2 transform -translate-x-1/2 -translate-y-1/2">
         <Searchbox></Searchbox>
       </div>
     </div>
