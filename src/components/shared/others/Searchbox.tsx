@@ -64,9 +64,6 @@ const Searchbox = () => {
     console.log("Submitted Values:", values);
   }
 
-  const { watch } = form;
-  const travellerCount = watch("travellers");
-
   return (
     <div className="w-full font-raleway flex flex-col items-center justify-center min-h-screen px-4 z-10">
       <h1 className="text-2xl sm:text-3xl md:text-6xl font-raleway font-semibold text-transparent bg-clip-text bg-gradient-to-r from-gray-400 via-gray-200 to-gray-500 animate-gradient-text mb-8">
@@ -83,13 +80,15 @@ const Searchbox = () => {
                   name="from"
                   render={({ field }) => (
                     <FormItem className="w-full md:w-fit">
-                      <p className="text-white font-semibold text-sm">From</p>
+                      <label className="m-0 p-0 text-white font-semibold text-sm">
+                        From
+                      </label>
                       <Select
                         onValueChange={field.onChange}
                         value={field.value}
                       >
                         <FormControl>
-                          <SelectTrigger className="w-full md:w-40 mt-1 py-5 text-black bg-white outline-none focus-visible:ring-transparent pointer-events-none lg:pointer-events-auto">
+                          <SelectTrigger className="w-full md:w-40 py-5 text-black bg-white outline-none focus-visible:ring-transparent pointer-events-none lg:pointer-events-auto">
                             <SelectValue placeholder="Start From" />
                           </SelectTrigger>
                         </FormControl>
@@ -109,13 +108,15 @@ const Searchbox = () => {
                   name="to"
                   render={({ field }) => (
                     <FormItem className="w-full md:w-fit">
-                      <p className="text-white font-semibold text-sm">To</p>
+                      <label className="m-0 p-0 text-white font-semibold text-sm">
+                        To
+                      </label>
                       <Select
                         onValueChange={field.onChange}
                         value={field.value}
                       >
                         <FormControl>
-                          <SelectTrigger className="w-full md:w-40 mt-1 py-5 text-black bg-white outline-none focus-visible:ring-transparent pointer-events-none lg:pointer-events-auto">
+                          <SelectTrigger className="w-full md:w-40 py-5 text-black bg-white outline-none focus-visible:ring-transparent pointer-events-none lg:pointer-events-auto">
                             <SelectValue placeholder="Going To" />
                           </SelectTrigger>
                         </FormControl>
@@ -144,7 +145,7 @@ const Searchbox = () => {
                             <Button
                               variant="outline"
                               className={cn(
-                                "flex items-center gap-2 border px-4 py-2 rounded-md w-full h-[40px] justify-start",
+                                "flex items-center gap-2 border px-4 py-5 rounded-md w-full h-[43px] justify-start",
                                 !field.value && "text-muted-foreground"
                               )}
                             >
@@ -189,16 +190,17 @@ const Searchbox = () => {
                   )}
                 />
 
-                <FormField
-                  control={form.control}
-                  name="travellers"
-                  render={({ field }) => (
-                    <FormItem className="w-full md:w-fit flex items-center gap-2 md:gap-3">
-                      <div className="w-1/2">
+                <FormItem className="w-full md:w-fit flex items-center gap-2 md:gap-3">
+                  {/* Travellers */}
+                  <FormField
+                    control={form.control}
+                    name="travellers"
+                    render={({ field }) => (
+                      <FormItem className="w-1/2">
                         <p className="text-white font-semibold text-sm">
                           Travellers
                         </p>
-                        <div className="bg-white flex border rounded-md items-center mt-1">
+                        <div className="bg-white flex border rounded-md items-center h-[44px]">
                           <Button
                             type="button"
                             variant="outline"
@@ -213,7 +215,7 @@ const Searchbox = () => {
                             readOnly
                             type="number"
                             className="w-16 mx-auto py-5 text-center outline-none focus-visible:ring-transparent border-y-0 rounded-none"
-                            value={travellerCount}
+                            value={field.value}
                           />
                           <Button
                             type="button"
@@ -225,44 +227,43 @@ const Searchbox = () => {
                           </Button>
                         </div>
                         <FormMessage className="text-red-700 font-bold" />
-                      </div>
+                      </FormItem>
+                    )}
+                  />
 
-                      <FormField
-                        control={form.control}
-                        name="purpose"
-                        render={({ field }) => (
-                          <FormItem className="w-1/2">
-                            <p className="text-white font-semibold text-sm">
-                              Purpose
-                            </p>
-                            <Select
-                              onValueChange={field.onChange}
-                              value={field.value}
-                            >
-                              <FormControl>
-                                <SelectTrigger className="w-full md:w-40 mt-1 py-5 text-black bg-white outline-none focus-visible:ring-transparent pointer-events-none lg:pointer-events-auto">
-                                  <SelectValue placeholder="Traveling For" />
-                                </SelectTrigger>
-                              </FormControl>
-                              <SelectContent>
-                                <SelectItem value="honeymoon">
-                                  Honeymoon
-                                </SelectItem>
-                                <SelectItem value="family">
-                                  Family Vacation
-                                </SelectItem>
-                                <SelectItem value="business">
-                                  Business Trip
-                                </SelectItem>
-                              </SelectContent>
-                            </Select>
-                            <FormMessage className="text-red-700 font-bold" />
-                          </FormItem>
-                        )}
-                      />
-                    </FormItem>
-                  )}
-                />
+                  {/* Purpose */}
+                  <FormField
+                    control={form.control}
+                    name="purpose"
+                    render={({ field }) => (
+                      <FormItem className="w-1/2">
+                        <label className="m-0 p-0 text-white font-semibold text-sm">
+                          Purpose
+                        </label>
+                        <Select
+                          onValueChange={field.onChange}
+                          value={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger className="w-full md:w-40 py-5 text-black bg-white outline-none focus-visible:ring-transparent pointer-events-none lg:pointer-events-auto">
+                              <SelectValue placeholder="Traveling For" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="honeymoon">Honeymoon</SelectItem>
+                            <SelectItem value="family">
+                              Family Vacation
+                            </SelectItem>
+                            <SelectItem value="business">
+                              Business Trip
+                            </SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage className="text-red-700 font-bold" />
+                      </FormItem>
+                    )}
+                  />
+                </FormItem>
               </div>
 
               <div className="text-center">
