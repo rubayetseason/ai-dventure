@@ -138,12 +138,30 @@
   }
 }
 
+@keyframes gradient-x {
+
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
 @layer utilities {
   .animate-gradient-text {
     animation: gradient_text 5s ease infinite;
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+  }
+
+  .bg-gradient-animate {
+    @apply text-white bg-gradient-to-r from-[#0f0c29] via-[#3a357a] to-[#303058] hover:brightness-110 cursor-pointer transition-all duration-300 ease-in-out;
+    background-size: 200% 200%;
+    animation: gradient-x 3s ease infinite;
   }
 }
 
@@ -162,7 +180,7 @@
 
 .loading svg polyline#front {
   fill: none;
-  stroke: red;
+  stroke: #3a357a;
   stroke-dasharray: 48, 144;
   stroke-dashoffset: 192;
   animation: dash_682 1.4s linear infinite;
