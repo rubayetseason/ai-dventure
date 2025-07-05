@@ -1,9 +1,60 @@
+type OpenHours {
+  start String
+  end   String
+}
+
+enum RecommendedTime {
+  MORNING
+  AFTERNOON
+  EVENING
+  ANY
+}
+
+enum FoodOption {
+  IS_RESTAURANT
+  HAS_RESTAURANT
+  HAS_NEARBY_RESTAURANT
+  HAS_NEARBY_SNACKS
+  HAS_NEARBY_STREET_FOOD
+}
+
+type Activity {
+  name        String
+  description String
+}
+
+type Caveat {
+  // such as not recommended at night, for children, for rainy weather, etc.
+  name        String
+  description String
+}
+
+type LocationCost {
+  tier String
+  cost Float
+}
+
 model Location {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
-  name   String
-  cityId String @db.ObjectId
-  city   City   @relation(fields: [cityId], references: [id])
+  name                              String
+  type                              TripType[]
+  tags                              String[]
+  description                       String
+  openDays                          WeekDays[]
+  openHours                         OpenHours
+  activeVisit                       Boolean
+  recommendedTime                   RecommendedTime
+  recommendedVisitDurationInMinutes Int
+  foodOptions                       FoodOption[] // empty array means BYOF
+  availableActivities               Activity[]
+  caveats                           Caveat[]
+  recommendedVisitMonths            Int[]
+  costPerPerson                     LocationCost[]
+
+  cityId String              @db.ObjectId
+  city   City                @relation(fields: [cityId], references: [id])
+  hotels HotelsToLocations[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

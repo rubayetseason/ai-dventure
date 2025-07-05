@@ -1,11 +1,51 @@
+enum RoomCategory {
+  SINGLE
+  DOUBLE
+  TWIN
+  FAMILY
+  SUITE
+}
+
+type RoomTypes {
+  name        RoomCategory
+  description String
+  capacity    Int
+  price       Float
+}
+
 model Hotel {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
-  name   String
-  cityId String @db.ObjectId
+  name           String
+  description    String
+  rooms          RoomTypes[]
+  tags           String[]
+  rating         Float
+  amenities      String[]
+  recommendedFor TripType[]
 
-  city City @relation(fields: [cityId], references: [id])
+  cityId    String              @db.ObjectId
+  city      City                @relation(fields: [cityId], references: [id])
+  locations HotelsToLocations[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+type CommuteTime {
+  medium                 String
+  estimatedTimeInMinutes Int
+  description            String
+}
+
+model HotelsToLocations {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  distance    Float
+  commuteTime CommuteTime[]
+
+  hotelId         String   @db.ObjectId
+  hotelDetails    Hotel    @relation(fields: [hotelId], references: [id])
+  locationId      String   @db.ObjectId
+  locationDetails Location @relation(fields: [locationId], references: [id])
 }
