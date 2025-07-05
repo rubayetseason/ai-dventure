@@ -1,0 +1,188 @@
+enum TransportMedium {
+  BUS
+  TRAIN
+  FLIGHT
+}
+
+model City {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  name String
+
+  hotels    Hotel[]
+  locations Location[]
+
+  down CityTransport[] @relation("CityTransportFrom")
+  up   CityTransport[] @relation("CityTransportTo")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model CityTransport {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  medium TransportMedium
+
+  fromId                 String     @db.ObjectId
+  toId                   String     @db.ObjectId
+  estimatedTimeInMinutes Int
+  price                  Float
+  depertureTimes         DateTime[]
+
+  from City @relation("CityTransportFrom", fields: [fromId], references: [id])
+  to   City @relation("CityTransportTo", fields: [toId], references: [id])
+}
+
+enum RoomCategory {
+  SINGLE
+  DOUBLE
+  TWIN
+  FAMILY
+  SUITE
+}
+
+type RoomTypes {
+  name        RoomCategory
+  description String
+  capacity    Int
+  price       Float
+}
+
+model Hotel {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  name           String
+  description    String
+  rooms          RoomTypes[]
+  tags           String[]
+  rating         Float
+  amenities      String[]
+  recommendedFor TripType[]
+
+  cityId    String              @db.ObjectId
+  city      City                @relation(fields: [cityId], references: [id])
+  locations HotelsToLocations[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+type CommuteTime {
+  medium                 String
+  estimatedTimeInMinutes Int
+  description            String
+}
+
+model HotelsToLocations {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  distance    Float
+  commuteTime CommuteTime[]
+
+  hotelId         String   @db.ObjectId
+  hotelDetails    Hotel    @relation(fields: [hotelId], references: [id])
+  locationId      String   @db.ObjectId
+  locationDetails Location @relation(fields: [locationId], references: [id])
+}
+
+type OpenHours {
+  start String
+  end   String
+}
+
+enum RecommendedTime {
+  MORNING
+  AFTERNOON
+  EVENING
+  ANY
+}
+
+enum FoodOption {
+  IS_RESTAURANT
+  HAS_RESTAURANT
+  HAS_NEARBY_RESTAURANT
+  HAS_NEARBY_SNACKS
+  HAS_NEARBY_STREET_FOOD
+}
+
+type Activity {
+  name        String
+  description String
+}
+
+type Caveat {
+  // such as not recommended at night, for children, for rainy weather, etc.
+  name        String
+  description String
+}
+
+type LocationCost {
+  tier String
+  cost Float
+}
+
+model Location {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  name                              String
+  type                              TripType[]
+  tags                              String[]
+  description                       String
+  openDays                          WeekDays[]
+  openHours                         OpenHours
+  activeVisit                       Boolean
+  recommendedTime                   RecommendedTime
+  recommendedVisitDurationInMinutes Int
+  foodOptions                       FoodOption[] // empty array means BYOF
+  availableActivities               Activity[]
+  caveats                           Caveat[]
+  recommendedVisitMonths            Int[]
+  costPerPerson                     LocationCost[]
+
+  cityId String              @db.ObjectId
+  city   City                @relation(fields: [cityId], references: [id])
+  hotels HotelsToLocations[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Review {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+}
+
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/app/generated/prisma"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+enum WeekDays {
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+  SUNDAY
+}
+
+enum TripType {
+  NATURE
+  HISTORY
+  CULTURE
+  ROMANTIC
+  ADVENTURE
+  PILGRIMAGE
+}

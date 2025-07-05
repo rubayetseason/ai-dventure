@@ -1,0 +1,35 @@
+enum TransportMedium {
+  BUS
+  TRAIN
+  FLIGHT
+}
+
+model City {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  name String
+
+  hotels    Hotel[]
+  locations Location[]
+
+  down CityTransport[] @relation("CityTransportFrom")
+  up   CityTransport[] @relation("CityTransportTo")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model CityTransport {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  medium TransportMedium
+
+  fromId                 String     @db.ObjectId
+  toId                   String     @db.ObjectId
+  estimatedTimeInMinutes Int
+  price                  Float
+  depertureTimes         DateTime[]
+
+  from City @relation("CityTransportFrom", fields: [fromId], references: [id])
+  to   City @relation("CityTransportTo", fields: [toId], references: [id])
+}
