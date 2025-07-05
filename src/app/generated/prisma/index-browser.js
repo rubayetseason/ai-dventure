@@ -167,6 +167,10 @@ exports.Prisma.LocationScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.ReviewScalarFieldEnum = {
+  id: 'id'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -229,7 +233,8 @@ exports.Prisma.ModelName = {
   CityTransport: 'CityTransport',
   Hotel: 'Hotel',
   HotelsToLocations: 'HotelsToLocations',
-  Location: 'Location'
+  Location: 'Location',
+  Review: 'Review'
 };
 
 /**

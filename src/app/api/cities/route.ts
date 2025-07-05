@@ -3,7 +3,7 @@ import cityValidator from "./validator";
 import prisma from "../../../../lib/prisma";
 
 export async function GET() {
-  const cities = await prisma.city.findMany({});
+  const cities = await prisma.location.findMany({});
   return NextResponse.json(cities, { status: 200 });
 }
 
@@ -13,6 +13,7 @@ export async function POST(request: NextRequest) {
     const { transports, ...data } =
       await cityValidator.createCitySchema.parseAsync(body);
 
+    await prisma.review.create({ data: {} });
     const response = await prisma.$transaction(async (tx) => {
       const newCity = await tx.city.create({ data });
       if (transports.length)
