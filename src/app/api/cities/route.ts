@@ -3,7 +3,7 @@ import cityValidator from "./validator";
 import prisma from "../../../../lib/prisma";
 
 export async function GET() {
-  const cities = await prisma.location.findMany({});
+  const cities = await prisma.city.findMany({});
   return NextResponse.json(cities, { status: 200 });
 }
 
