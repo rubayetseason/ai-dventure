@@ -35,7 +35,7 @@ const AiLoader = () => {
   if (!visible) return null;
 
   return (
-    <div className="text-white font-raleway bg-black flex justify-center items-center fixed top-0 left-0 w-dvw h-dvh">
+    <div className="text-white font-raleway bg-black flex justify-center items-center fixed top-0 left-0 w-dvw h-dvh z-50">
       <div className="flex justify-center items-center gap-11">
         <div className="spinner">
           <div></div>
