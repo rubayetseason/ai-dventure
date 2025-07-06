@@ -18,7 +18,7 @@ const AiLoader = () => {
   useEffect(() => {
     const messageInterval = setInterval(() => {
       setIndex((prev) => (prev + 1) % messages.length);
-    }, 2000);
+    }, 2 * 1000);
 
     return () => clearInterval(messageInterval);
   }, []);
