@@ -26,6 +26,7 @@ import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { CalendarIcon, Leaf, Mountain, Ship, Sparkles } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -51,6 +52,7 @@ const formSchema = z.object({
 export type SearchFormValues = z.infer<typeof formSchema>;
 
 const Searchbox = () => {
+  const router = useRouter();
   const [openDate, setOpenDate] = useState(false);
 
   const form = useForm<SearchFormValues>({
@@ -61,7 +63,8 @@ const Searchbox = () => {
   });
 
   function onSubmit(values: SearchFormValues) {
-    console.log("Submitted Values:", values);
+    console.log(values);
+    router.push("/search-result");
   }
 
   return (
