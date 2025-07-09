@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(
       { success: true, message: "City created successfully", data: response },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     console.error("Error creating city:", error);
