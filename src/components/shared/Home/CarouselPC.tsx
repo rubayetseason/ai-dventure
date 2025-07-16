@@ -46,7 +46,7 @@ const CarouselPC = () => {
     <div>
       <Carousel
         opts={{ loop: true }}
-        plugins={[Autoplay({ delay: 5000 }), Fade()]}
+        plugins={[Autoplay({ delay: 15 * 1000 }), Fade()]}
       >
         <CarouselContent>
           {carouselSlides.map((slide, index) => (

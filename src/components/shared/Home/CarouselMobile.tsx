@@ -33,7 +33,7 @@ const CarouselMobile = () => {
     <div>
       <Carousel
         opts={{ loop: true }}
-        plugins={[Autoplay({ delay: 5000 }), Fade()]}
+        plugins={[Autoplay({ delay: 15 * 1000 }), Fade()]}
       >
         <CarouselContent>
           {carouselSlides.map((slide, index) => (
@@ -45,7 +45,7 @@ const CarouselMobile = () => {
                 priority={index === 0}
               />
               <div className="px-12 w-full absolute top-24 left-0 flex flex-col gap-5 z-10">
-                <h1 className="text-5xl text-center text-white font-comforter">
+                <h1 className="text-3xl text-center text-white font-comforter">
                   {slide.title}
                 </h1>
               </div>
