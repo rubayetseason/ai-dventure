@@ -8,13 +8,13 @@ model City {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
   name     String
-  imageUrl String?
+  imageUrl String
 
   hotels    Hotel[]
   locations Location[]
 
-  down CityTransport[] @relation("CityTransportFrom")
-  up   CityTransport[] @relation("CityTransportTo")
+  up   CityTransport[] @relation("CityTransportFrom")
+  down CityTransport[] @relation("CityTransportTo")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -29,8 +29,8 @@ model CityTransport {
   toId                   String     @db.ObjectId
   estimatedTimeInMinutes Int
   price                  Float
-  depertureTimes         DateTime[]
+  departureTimes         DateTime[]
 
-  from City @relation("CityTransportFrom", fields: [fromId], references: [id])
-  to   City @relation("CityTransportTo", fields: [toId], references: [id])
+  from City @relation("CityTransportFrom", fields: [fromId], references: [id], onDelete: Cascade)
+  to   City @relation("CityTransportTo", fields: [toId], references: [id], onDelete: Cascade)
 }
