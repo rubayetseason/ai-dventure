@@ -11,12 +11,14 @@ type RoomTypes {
   description String
   capacity    Int
   price       Float
+  images      String[]
 }
 
 model Hotel {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
   name           String
+  imageUrl       String
   description    String
   rooms          RoomTypes[]
   tags           String[]

@@ -38,6 +38,7 @@ model Location {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
   name                              String
+  images                            String[]
   type                              TripType[]
   tags                              String[]
   description                       String

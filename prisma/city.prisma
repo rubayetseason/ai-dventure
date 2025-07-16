@@ -7,7 +7,8 @@ enum TransportMedium {
 model City {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
-  name String
+  name     String
+  imageUrl String?
 
   hotels    Hotel[]
   locations Location[]
