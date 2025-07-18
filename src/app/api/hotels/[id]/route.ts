@@ -1,27 +1,27 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "../../../../../lib/prisma";
-import cityValidator from "../validator";
+import hotelValidator from "../validator";
 
 export async function GET(
   _: NextRequest,
   { params }: { params: { id: string } },
 ) {
   try {
-    const city = await prisma.city.findUnique({
+    const hotel = await prisma.hotel.findUnique({
       where: { id: params.id },
     });
 
-    if (!city)
-      return NextResponse.json({ message: "City not found" }, { status: 404 });
+    if (!hotel)
+      return NextResponse.json({ message: "Hotel not found" }, { status: 404 });
 
-    return NextResponse.json({ message: "City found", data: city });
+    return NextResponse.json({ message: "Hotel found", data: hotel });
   } catch (error) {
     return NextResponse.json(
       {
         error,
         message:
           (error as Record<string, unknown>).message ??
-          "An error occurred while creating the city",
+          "An error occurred while creating the hotel",
       },
       { status: 500 },
     );
@@ -34,35 +34,40 @@ export async function PATCH(
 ) {
   try {
     const body = await req.json();
-    const { transports, ...data } =
-      await cityValidator.updateCitySchema.parseAsync(body);
+    const { locations, ...data } =
+      await hotelValidator.updateHotelSchema.parseAsync(body);
 
     const updated = await prisma.$transaction(async (tx) => {
-      const updatedCity = await tx.city.update({
+      const updatedHotel = await tx.hotel.update({
         where: { id: params.id },
         data,
       });
 
-      if (transports?.length) {
-        await tx.cityTransport.deleteMany({ where: { fromId: params.id } });
-        await tx.cityTransport.createMany({
-          data: transports.map((transport) => ({
+      if (locations?.length) {
+        await tx.hotelsToLocations.deleteMany({
+          where: { hotelId: params.id },
+        });
+        await tx.hotelsToLocations.createMany({
+          data: locations.map((transport) => ({
             ...transport,
-            fromId: params.id,
+            hotelId: updatedHotel.id,
           })),
         });
       }
 
-      return updatedCity;
+      return updatedHotel;
     });
-    return NextResponse.json({ message: "City updated", data: updated });
+    return NextResponse.json({
+      message: "Hotel updated successfully",
+      data: updated,
+    });
   } catch (error) {
     return NextResponse.json(
       {
         error,
         message:
           (error as Record<string, unknown>).message ??
-          "An error occurred while creating the city",
+          "An error occurred while creating the hotel",
       },
       { status: 500 },
     );
@@ -74,11 +79,11 @@ export async function DELETE(
   { params }: { params: { id: string } },
 ) {
   try {
-    const deleted = await prisma.city.delete({
+    const deleted = await prisma.hotel.delete({
       where: { id: params.id },
     });
     return NextResponse.json({
-      message: "City deleted successfully",
+      message: "Hotel deleted successfully",
       data: deleted,
     });
   } catch (error) {
@@ -87,7 +92,7 @@ export async function DELETE(
         error,
         message:
           (error as Record<string, unknown>).message ??
-          "An error occurred while creating the city",
+          "An error occurred while creating the hotel",
       },
       { status: 500 },
     );

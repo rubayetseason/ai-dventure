@@ -6,7 +6,7 @@ enum RoomCategory {
   SUITE
 }
 
-type RoomTypes {
+type RoomType {
   name        RoomCategory
   description String
   capacity    Int
@@ -20,7 +20,7 @@ model Hotel {
   name           String
   imageUrl       String
   description    String
-  rooms          RoomTypes[]
+  rooms          RoomType[]
   tags           String[]
   rating         Float
   amenities      String[]
@@ -43,11 +43,11 @@ type CommuteTime {
 model HotelsToLocations {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
-  distance    Float
-  commuteTime CommuteTime[]
+  distanceInMeters Int
+  commuteTimes     CommuteTime[]
 
   hotelId         String   @db.ObjectId
   hotelDetails    Hotel    @relation(fields: [hotelId], references: [id])
   locationId      String   @db.ObjectId
-  locationDetails Location @relation(fields: [locationId], references: [id])
+  locationDetails Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
 }
